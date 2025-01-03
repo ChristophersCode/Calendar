@@ -1,4 +1,5 @@
 const calendarDates = document.getElementById('calendar-dates');
+const calendarDays = document.getElementById('calendar-days');
 const monthYear = document.getElementById('month-year');
 const prevButton = document.getElementById('prev');
 const nextButton = document.getElementById('next');
@@ -8,13 +9,24 @@ const saveNoteButton = document.getElementById('save-note');
 const noteDisplay = document.getElementById('note-display');
 
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const dayLetters = ["S", "M", "T", "W", "T", "F", "S"];
 const letters = ["M", "P", "C", "A"];
 let currentDate = new Date();
 let selectedDateDiv = null;
 let notes = {};
 
 function renderCalendar() {
+    calendarDays.innerHTML = '';
     calendarDates.innerHTML = '';
+
+    // Add day headers
+    dayLetters.forEach(letter => {
+        const dayHeader = document.createElement('div');
+        dayHeader.className = 'calendar-day';
+        dayHeader.textContent = letter;
+        calendarDays.appendChild(dayHeader);
+    });
+
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     monthYear.textContent = `${monthNames[month]} ${year}`;
@@ -29,6 +41,7 @@ function renderCalendar() {
 
     for (let day = 1; day <= daysInMonth; day++) {
         const dateDiv = document.createElement('div');
+        dateDiv.className = 'calendar-date';
         const letterIndex = (day - 1) % letters.length;
         const presetValue = letters[letterIndex] + ' ' + letters[(letterIndex + 1) % letters.length];
 
