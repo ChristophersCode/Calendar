@@ -27,7 +27,11 @@
             gap: 5px;
             margin-top: 10px;
         }
-        .calendar-grid div {
+        .calendar-day {
+            font-weight: bold;
+            border: none;
+        }
+        .calendar-date {
             height: 60px;
             padding: 10px;
             display: flex;
@@ -83,6 +87,7 @@
             <span id="month-year"></span>
             <button id="next">&gt;</button>
         </div>
+        <div class="calendar-grid" id="calendar-days"></div>
         <div class="calendar-grid" id="calendar-dates"></div>
     </div>
     <div id="note-section" style="display: none;">
