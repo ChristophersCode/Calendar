@@ -15,33 +15,22 @@ let currentDate = new Date();
 let selectedDateDiv = null;
 let notes = {};
 
-const combinations = [];
-for (let i = 0; i < letters.length; i++) {
-    for (let j = 0; j < letters.length; j++) {
-        if (i !== j) {
-            combinations.push(letters[i] + letters[j]);
-        }
-    }
-}
+// PLEASE DON'T JUDGE ME, I AM TOO TIRED FOR THIS SHIT. I COULDN'T GET AN EVEN DISTRIBUTED WITHOUT THIS SHIT >:(
+const predefinedPattern = [
+    "A M", "M C", "A C", "P C", "A P", "M P", 
+    "P C", "A M", "M C", "P C", "A P", "M C",
+    "P C", "A P", "M P", "P C", "A M", "M C",
+    "A C", "P C", "A P", "M P", "P C", "A C", 
+    "M C", "A M", "P C", "M P", "A P", "P C", 
+    "M C", "A P"
+];
 
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-function generateBalancedPairs(daysInMonth) {
+// Function to generate pairs for the number of days in the month using the predefined pattern
+function generatePredefinedPairs(daysInMonth) {
     const pairs = [];
-    const shuffledCombinations = shuffle([...combinations]);
-    let combinationIndex = 0;
-    
-    while (pairs.length < daysInMonth) {
-        pairs.push(shuffledCombinations[combinationIndex]);
-        combinationIndex = (combinationIndex + 1) % shuffledCombinations.length;
+    for (let day = 0; day < daysInMonth; day++) {
+        pairs.push(predefinedPattern[day % predefinedPattern.length]);
     }
-    
     return pairs;
 }
 
@@ -49,6 +38,7 @@ function renderCalendar() {
     calendarDays.innerHTML = '';
     calendarDates.innerHTML = '';
 
+    // Add day headers
     dayLetters.forEach(letter => {
         const dayHeader = document.createElement('div');
         dayHeader.className = 'calendar-day';
@@ -62,7 +52,7 @@ function renderCalendar() {
 
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const balancedPairs = generateBalancedPairs(daysInMonth);
+    const predefinedPairs = generatePredefinedPairs(daysInMonth);
 
     for (let i = 0; i < firstDay; i++) {
         const emptyCell = document.createElement('div');
@@ -72,11 +62,11 @@ function renderCalendar() {
     for (let day = 1; day <= daysInMonth; day++) {
         const dateDiv = document.createElement('div');
         dateDiv.className = 'calendar-date';
-        const presetValue = balancedPairs[day - 1];
+        const presetValue = predefinedPairs[day - 1];
 
         const dateSpan = document.createElement('span');
         dateSpan.className = 'date';
-        dateSpan.textContent = day.toString().padStart(2, '0') + '.';
+        dateSpan.textContent = day.toString().padStart(2, '0') + '.'; // Add period after numbers
 
         const presetSpan = document.createElement('span');
         presetSpan.className = 'preset-value';
@@ -134,7 +124,7 @@ saveNoteButton.addEventListener('click', () => {
 
         noteDisplay.innerHTML = notes[dateKey].map(note => `<p>${note}</p>`).join('');
         selectedDateDiv.classList.add('note');
-        selectedDateDiv.classList.remove('marked');
+        selectedDateDiv.classList.remove('marked'); // Ensure it's removed if it was marked
     }
     noteSection.style.display = 'none';
     noteInput.value = '';
