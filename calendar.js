@@ -15,7 +15,6 @@ let currentDate = new Date();
 let selectedDateDiv = null;
 let notes = {};
 
-// Generate all unique pairs without duplicates like AA or AC and CA
 const combinations = [];
 for (let i = 0; i < letters.length; i++) {
     for (let j = 0; j < letters.length; j++) {
@@ -25,7 +24,6 @@ for (let i = 0; i < letters.length; i++) {
     }
 }
 
-// Function to shuffle an array
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -51,7 +49,6 @@ function renderCalendar() {
     calendarDays.innerHTML = '';
     calendarDates.innerHTML = '';
 
-    // Add day headers
     dayLetters.forEach(letter => {
         const dayHeader = document.createElement('div');
         dayHeader.className = 'calendar-day';
@@ -79,7 +76,7 @@ function renderCalendar() {
 
         const dateSpan = document.createElement('span');
         dateSpan.className = 'date';
-        dateSpan.textContent = day.toString().padStart(2, '0') + '.'; // Add period after numbers
+        dateSpan.textContent = day.toString().padStart(2, '0') + '.';
 
         const presetSpan = document.createElement('span');
         presetSpan.className = 'preset-value';
@@ -137,7 +134,7 @@ saveNoteButton.addEventListener('click', () => {
 
         noteDisplay.innerHTML = notes[dateKey].map(note => `<p>${note}</p>`).join('');
         selectedDateDiv.classList.add('note');
-        selectedDateDiv.classList.remove('marked'); // Ensure it's removed if it was marked
+        selectedDateDiv.classList.remove('marked');
     }
     noteSection.style.display = 'none';
     noteInput.value = '';
