@@ -10,10 +10,42 @@ const noteDisplay = document.getElementById('note-display');
 
 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const dayLetters = ["S", "M", "T", "W", "T", "F", "S"];
-const letters = ["M", "P", "C", "A"];
+const letters = ["A", "M", "C", "P"];
 let currentDate = new Date();
 let selectedDateDiv = null;
 let notes = {};
+
+// Generate all unique pairs without duplicates like AA or AC and CA
+const combinations = [];
+for (let i = 0; i < letters.length; i++) {
+    for (let j = 0; j < letters.length; j++) {
+        if (i !== j) {
+            combinations.push(letters[i] + letters[j]);
+        }
+    }
+}
+
+// Function to shuffle an array
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function generateBalancedPairs(daysInMonth) {
+    const pairs = [];
+    const shuffledCombinations = shuffle([...combinations]);
+    let combinationIndex = 0;
+    
+    while (pairs.length < daysInMonth) {
+        pairs.push(shuffledCombinations[combinationIndex]);
+        combinationIndex = (combinationIndex + 1) % shuffledCombinations.length;
+    }
+    
+    return pairs;
+}
 
 function renderCalendar() {
     calendarDays.innerHTML = '';
@@ -33,6 +65,7 @@ function renderCalendar() {
 
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const balancedPairs = generateBalancedPairs(daysInMonth);
 
     for (let i = 0; i < firstDay; i++) {
         const emptyCell = document.createElement('div');
@@ -42,8 +75,7 @@ function renderCalendar() {
     for (let day = 1; day <= daysInMonth; day++) {
         const dateDiv = document.createElement('div');
         dateDiv.className = 'calendar-date';
-        const letterIndex = (day - 1) % letters.length;
-        const presetValue = letters[letterIndex] + ' ' + letters[(letterIndex + 1) % letters.length];
+        const presetValue = balancedPairs[day - 1];
 
         const dateSpan = document.createElement('span');
         dateSpan.className = 'date';
