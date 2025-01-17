@@ -17,12 +17,12 @@ let notes = {};
 
 // PLEASE DON'T JUDGE ME, I AM TOO TIRED FOR THIS SHIT. I COULDN'T GET AN EVEN DISTRIBUTED WITHOUT THIS SHIT >:(
 const predefinedPattern = [
-    "A M", "M C", "A C", "P C", "A P", "M P", 
-    "P C", "A M", "M C", "P C", "A P", "M C",
-    "P C", "A P", "M P", "P C", "A M", "M C",
-    "A C", "P C", "A P", "M P", "P C", "A C", 
-    "M C", "A M", "P C", "M P", "A P", "P C", 
-    "M C", "A P"
+    "P M", "A C", "M P", "A C", "M P", "M A", 
+    "P C", "A C", "P A", "C M", "A P", "M A",
+    "P C", "C M", "P M", "A C", "M P", "A C",
+    "M P", "M A", "P C", "A C", "P A", "C M", 
+    "A P", "M A", "P C", "C M", "P M", "A C", 
+    "A P", "M A"
 ];
 
 // Function to generate pairs for the number of days in the month using the predefined pattern
